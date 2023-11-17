@@ -31,8 +31,10 @@ public class FamilyTree
         
         void addChild(TreeNode childNode)
         {
-            // Add childNode to this node's children list. Also
-            // set childNode's parent to this node.
+        	// Add childNode to this node's children list.
+            children.add(childNode);
+            // Set childNode's parent to this node.
+            childNode.parent = this;
         }
         
         
@@ -41,14 +43,18 @@ public class FamilyTree
         TreeNode getNodeWithName(String targetName)
         {
             // Does this node have the target name?
-            if (?????)
+            if (this.name.equals(targetName))
                 return this;
                     
             // No, recurse. Check all children of this node.
             for (TreeNode child: children)
             {
+            	TreeNode result = child.getNodeWithName(targetName);
                 // If child.getNodeWithName(targetName) returns a non-null node,
                 // then that's the node we're looking for. Return it.
+                if (result != null) {
+                    return result;
+                }
             }
             
             // Not found anywhere.
@@ -62,11 +68,17 @@ public class FamilyTree
         {
             ArrayList<TreeNode> ancestors = new ArrayList<>();
 
-            // ?????  Collect ancestors of this TreeNode into the array list. HINT: going up
-            // the nodes of a tree is like traversing a linked list. If that isn’t clear,
-            // draw a tree, mark any leaf node, and then mark its ancestors in order from
-            // recent to ancient. Expect a question about this on the final exam.
+         // Start with the parent of this node.
+            TreeNode current = this.parent;
 
+            // Traverse up the tree until you reach a node with no parent.
+            while (current != null) {
+                // Add the current ancestor to the list.
+                ancestors.add(current);
+
+                // Move up to the parent of the current node.
+                current = current.parent;
+            }
             return ancestors;
         }
         
